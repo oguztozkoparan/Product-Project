@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  backend:
+    container_name: product-backend
+    image: "product-backend:latest"
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    ports:
+      - "8080:8080"
+
+  frontend:
+    container_name: product-frontend
+    image: "product-frontend:latest"
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    ports:
+      - "4200:4200"
