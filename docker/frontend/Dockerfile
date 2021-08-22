@@ -1,20 +1,21 @@
-FROM node:14.16.1 AS build
+FROM node:14.16.1-alpine AS build
 
 # set working directory
+RUN mkdir -p /app
 WORKDIR /app
 
 # dependencies
-COPY package.json ./
+COPY ./frontend/package.json /app
 RUN npm install
 
-# copy project files
-COPY . ./
+COPY ./frontend /app
 
 # run project
-RUN npm run build --outputPath=./dist/out
+RUN npm run build --prod
 
-FROM nginx:1.17-alphine
-COPY --from=build /app/dist/out/ /usr/share/nginx/html
+
+FROM nginx:1.17.0-alpine
+COPY --from=build /app/docs /usr/share/nginx/html
 
 EXPOSE 4200
 
