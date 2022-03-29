@@ -5,17 +5,17 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # dependencies
-COPY ./package.json /app
+COPY ./frontend/package.json /app
 RUN npm install
 
-COPY ./ /app
+COPY ./frontend /app
 
 # run project
 RUN npm run build --prod
 
 
 FROM nginx:1.17.0-alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/docs /usr/share/nginx/html
 
 EXPOSE 4200
 
